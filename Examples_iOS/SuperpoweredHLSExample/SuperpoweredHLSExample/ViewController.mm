@@ -4,12 +4,18 @@
 #include "SuperpoweredSimple.h"
 
 // some HLS stream url-title pairs
-static const char *urls[8] = {
+static const char *urls[10] = {
     "https://devimages.apple.com.edgekey.net/streaming/examples/bipbop_16x9/bipbop_16x9_variant.m3u8", "Apple Advanced Example Stream",
     "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8", "Back to the Mac",
     "http://playertest.longtailvideo.com/adaptive/bbbfull/bbbfull.m3u8", "JW Player Test",
     "http://playertest.longtailvideo.com/adaptive/oceans_aes/oceans_aes.m3u8", "JW AES Encrypted",
+    "<INSERT_M3U8_URL_HERE>", "My test Stream",
 };
+
+static char **httpHeaders = (char *[]){
+  "Authorization", "Bearer <INSERT_TOKEN_HERE>"
+};
+
 
 @implementation ViewController {
     UIView *bufferIndicator;
@@ -95,7 +101,7 @@ static bool audioProcessing(void *clientdata, float **buffers, unsigned int inpu
 - (void)open:(NSInteger)row {
     currentTime.hidden = playPause.hidden = seekSlider.hidden = YES;
     duration.text = @"Loading...";
-    player->openHLS(urls[row]);
+    player->openHLS(urls[row],httpHeaders);
 }
 
 - (void)dealloc {
